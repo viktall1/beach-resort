@@ -23,10 +23,10 @@ export default class SingleRoom extends Component {
     render() {
         const { getRoom } = this.context;
         const room = getRoom(this.state.slug);
-        console.log(room);
+        // console.log(room);
         if (!room) {
             return (<div className="error">
-                <h3>No such room could br found
+                <h3>No such room could be found
                 <Link to="/" className="btn-primary">Back To Rooms</Link>
                 </h3>
             </div>);
@@ -65,7 +65,7 @@ export default class SingleRoom extends Component {
                     <h6>extras</h6>
                     <ul className="extras">
                         {extras.map((item,index) => {
-                            return <li key={index} > {item} </li>
+                            return <li key={index} > - {item} </li>
                         })}
                     </ul>
                 </section>

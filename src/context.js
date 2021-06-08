@@ -2,6 +2,8 @@ import React, { Component } from "react";
 // import { FaTintSlash } from 'react-icons/fa';
 import items from "./data";
 
+import Client from './contentful'
+
 const RoomContext = React.createContext();
 
 class RoomProvider extends Component {
@@ -21,19 +23,44 @@ class RoomProvider extends Component {
     pets: false,
   };
 
+  // get  data from contentful
+  getData = async () => {
+    try {
+      let response = await Client.getEntries({
+        content_type: "beachResortProject",
+        order: "fields.price"
+      });
+      let rooms = this.formatData(response.items);
+      let featuredRooms = rooms.filter((room) => room.featured === true);
+      let maxPrice = Math.max(...rooms.map((item) => item.price));
+      let maxSize = Math.max(...rooms.map((item) => item.size));
+      this.setState({
+        rooms,
+        featuredRooms,
+        sortedRooms: rooms,
+        loading: false,
+        maxPrice,
+        maxSize,
+      });
+    } catch (err) {
+      console.log(err)
+    }
+
+  }
   componentDidMount() {
-    let rooms = this.formatData(items);
-    let featuredRooms = rooms.filter((room) => room.featured === true);
-    let maxPrice = Math.max(...rooms.map((item) => item.price));
-    let maxSize = Math.max(...rooms.map((item) => item.size));
-    this.setState({
-      rooms,
-      featuredRooms,
-      sortedRooms: rooms,
-      loading: false,
-      maxPrice,
-      maxSize,
-    });
+    this.getData();
+    // let rooms = this.formatData(items);
+    // let featuredRooms = rooms.filter((room) => room.featured === true);
+    // let maxPrice = Math.max(...rooms.map((item) => item.price));
+    // let maxSize = Math.max(...rooms.map((item) => item.size));
+    // this.setState({
+    //   rooms,
+    //   featuredRooms,
+    //   sortedRooms: rooms,
+    //   loading: false,
+    //   maxPrice,
+    //   maxSize,
+    // });
 
     // console.log(rooms);
     //     console.log(featuredRooms);
@@ -101,12 +128,12 @@ class RoomProvider extends Component {
       (room) => room.size >= minSize && room.size <= maxSize
     );
     //filter by brakefast
-      if (breakfast) {
-          tempRooms = tempRooms.filter((room) => room.breakfast === true);
+    if (breakfast) {
+      tempRooms = tempRooms.filter((room) => room.breakfast === true);
     }
     //filter by pets
-      if (pets) {
-          tempRooms = tempRooms.filter((room) => room.pets === true);
+    if (pets) {
+      tempRooms = tempRooms.filter((room) => room.pets === true);
     }
 
     //update state
