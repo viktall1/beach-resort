@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import { FaTintSlash } from 'react-icons/fa';
 import items from "./data";
 
 import Client from './contentful'
@@ -47,24 +46,11 @@ class RoomProvider extends Component {
     }
 
   }
+
   componentDidMount() {
     this.getData();
-    // let rooms = this.formatData(items);
-    // let featuredRooms = rooms.filter((room) => room.featured === true);
-    // let maxPrice = Math.max(...rooms.map((item) => item.price));
-    // let maxSize = Math.max(...rooms.map((item) => item.size));
-    // this.setState({
-    //   rooms,
-    //   featuredRooms,
-    //   sortedRooms: rooms,
-    //   loading: false,
-    //   maxPrice,
-    //   maxSize,
-    // });
-
-    // console.log(rooms);
-    //     console.log(featuredRooms);
   }
+  
   formatData(items) {
     let tempItems = items.map((item, index) => {
       let id = item.sys.id;
@@ -94,7 +80,6 @@ class RoomProvider extends Component {
       },
       this.filterRooms
     );
-    // this.filterRooms();
   };
 
   filterRooms() {

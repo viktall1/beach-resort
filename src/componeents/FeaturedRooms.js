@@ -20,7 +20,6 @@ export default class FeaturedRooms extends Component {
                         roomsList
                     }
                 </div>
-
             </section>
         )
     }
